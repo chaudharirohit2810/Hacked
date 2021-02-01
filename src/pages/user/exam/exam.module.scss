@@ -1,0 +1,46 @@
+.main_container {
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.components_container {
+    display: flex;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.question_numbers_container {
+    margin: 0px 1rem 0px 0.5rem;
+    padding: 1rem;
+
+    flex: 1;
+}
+
+.question_number_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.question_number_div {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.question_container {
+    margin: 0 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+}
+
+.time_container {
+    margin: 0px 0.5rem 0px 1rem;
+    padding: 1rem;
+    flex: 1;
+}
