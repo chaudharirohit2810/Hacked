@@ -16,6 +16,7 @@ const QuestionNumberCard = ({
             <Paper className={Style.question_number_wrapper}>
                 {_.times(totalQuestions, (i) => (
                     <Paper
+                        key={i}
                         className={Style.question_number_div}
                         variant="outlined"
                         elevation={i + 1 === currentQuestion ? 24 : 0}
