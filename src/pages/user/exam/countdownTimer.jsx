@@ -1,17 +1,18 @@
 import { Paper } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 
-const CountDownTimer = () => {
+const CountDownTimer = ({ endTime }) => {
     const calculateTimeLeft = () => {
-        let year = new Date().getFullYear();
-        let difference = +new Date(`02/02/${year}`) - +new Date();
+        let difference = +new Date(endTime) - +new Date();
         let timeLeft = {};
 
         if (difference > 0) {
             timeLeft = {
                 hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minutes: Math.floor((difference / 1000 / 60) % 60),
-                seconds: Math.floor((difference / 1000) % 60),
+                minutes: (
+                    "0" + Math.floor((difference / 1000 / 60) % 60)
+                ).slice(-2),
+                seconds: ("0" + Math.floor((difference / 1000) % 60)).slice(-2),
             };
         }
 
@@ -41,6 +42,7 @@ const CountDownTimer = () => {
                     padding: "1rem",
                     textAlign: "center",
                 }}
+                key={interval}
                 variant="outlined"
             >
                 <div>

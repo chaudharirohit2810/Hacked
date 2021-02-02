@@ -44,3 +44,16 @@
     padding: 1rem;
     flex: 1;
 }
+
+@media (max-width: 768px) {
+    .question_numbers_container {
+        display: none;
+    }
+
+    .components_container {
+        flex-direction: column-reverse;
+    }
+    .time_container {
+        margin-bottom: 1rem;
+    }
+}
