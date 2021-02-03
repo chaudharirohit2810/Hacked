@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
+import axios from "axios";
+import { backendURL } from "../../../config";
 
 function Copyright() {
   return (
@@ -46,7 +48,27 @@ class Login extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     event.persist();
-    console.log(this.state);
+    const { collegeID, password } = this.state;
+    const data = {
+      collegeID,
+      password,
+    };
+    axios
+      .post(`${backendURL}/user/login`, data)
+      .then((response) => {
+        // console.log(response.data);
+        if (!response.data.error) {
+          this.props.history.push("/");
+        } else {
+          alert(response.data.result);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data.error) {
+          alert(error.response.data.result);
+        }
+        console.log(error.message);
+      });
   };
   render() {
     const { collegeID, password } = this.state;

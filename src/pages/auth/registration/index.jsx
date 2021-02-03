@@ -10,6 +10,9 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
+import FileBase64 from "react-file-base64";
+import axios from "axios";
+import { backendURL } from "../../../config";
 
 function Copyright() {
   return (
@@ -40,6 +43,7 @@ class Register extends React.Component {
       collegeID: "",
       contactNumber: "",
       password: "",
+      pics: [],
     };
   }
   handleChange = (event) => {
@@ -47,10 +51,49 @@ class Register extends React.Component {
       [event.target.name]: event.target.value,
     });
   };
+  handlePicsSave = (files) => {
+    this.setState({
+      pics: files,
+    });
+  };
   handleSubmit = (event) => {
     event.preventDefault();
     event.persist();
-    console.log(this.state);
+    const {
+      firstName,
+      lastName,
+      collegeID,
+      contactNumber,
+      collegeName,
+      password,
+      pics,
+    } = this.state;
+    let images = pics.map((element) => element.base64);
+    const data = {
+      firstName,
+      lastName,
+      collegeID,
+      contactNumber,
+      collegeName,
+      password,
+      images,
+    };
+    axios
+      .post(`${backendURL}/user/register`, data)
+      .then((response) => {
+        // console.log(response.data);
+        if (!response.data.error) {
+          this.props.history.push("/login");
+        } else {
+          alert(response.data.result);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data.error) {
+          alert(error.response.data.result);
+        }
+        console.log(error.message);
+      });
   };
   render() {
     const {
@@ -60,6 +103,7 @@ class Register extends React.Component {
       collegeName,
       contactNumber,
       password,
+      pics,
     } = this.state;
     return (
       <Container component="main" maxWidth="xs">
@@ -167,6 +211,24 @@ class Register extends React.Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  Upload Image
+                </Typography>
+                <FileBase64
+                  multiple={true}
+                  value={pics}
+                  onDone={(files) => {
+                    files.forEach((ele) => ele.base64);
+                    this.handlePicsSave(files);
+                  }}
                 />
               </Grid>
             </Grid>
