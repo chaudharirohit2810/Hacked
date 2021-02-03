@@ -242,18 +242,6 @@ class Form extends Component {
           justify="space-between"
           alignItems="center"
         >
-          {/* <Grid item>
-                        <Button
-                            onClick={this.handlePaperSubmit}
-                            style={{
-                                backgroundColor: "#1ab2ff",
-                                color: "white",
-                            }}
-                            variant="contained"
-                        >
-                            Submit Paper
-                        </Button>
-                    </Grid> */}
           <Grid item>
             <Typography variant="h3">Set Paper</Typography>
           </Grid>
