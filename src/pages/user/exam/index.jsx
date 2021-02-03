@@ -9,9 +9,9 @@ import TimeVideoComponent from "./timeVideoComponent";
 
 const Exam = () => {
     const [currentQuestion, setCurrentQuestion] = useState(1);
-    const exam = JSON.parse(secureStorage.getItem("exams"))[
-        parseInt(secureStorage.getItem("selectedQuiz"))
-    ];
+    const exam = JSON.parse(
+        secureStorage.getItem(secureStorage.getItem("selectedQuiz"))
+    );
     const totalQuestions = exam.Questions.length;
     const [answers, setAnswers] = useSecureStorage(
         "answers",

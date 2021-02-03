@@ -5,15 +5,19 @@ import {
     CardContent,
     Typography,
 } from "@material-ui/core";
-import React from "react";
-import { Link } from "react-router-dom";
-import { backendURL, secureStorage } from "../../../config";
-import Style from "./home.module.scss";
 import DownloadIcon from "@material-ui/icons/CloudDownloadOutlined";
 import ExamIcon from "@material-ui/icons/DoneOutlineRounded";
 import axios from "axios";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { backendURL, secureStorage } from "../../../config";
 
 const ExamCard = ({ item, index }) => {
+    const [downloaded, setDownloaded] = useState(
+        secureStorage.getItem(`${item._id}`)
+    );
+
+    const his = useHistory();
     const formatDate = (date) => {
         date = new Date(date);
         var hours = date.getHours();
@@ -30,7 +34,8 @@ const ExamCard = ({ item, index }) => {
         axios
             .get(`${backendURL}/exam/download`, { headers: { id: item._id } })
             .then((res) => {
-                console.log(res.data);
+                secureStorage.setItem(res.data._id, JSON.stringify(res.data));
+                setDownloaded(true);
             })
             .catch((err) => {
                 console.log(err);
@@ -40,9 +45,26 @@ const ExamCard = ({ item, index }) => {
     return (
         <Card variant="outlined" elevation={4} style={{ marginTop: "2rem" }}>
             <CardContent>
-                <Typography color="textPrimary" variant="h6">
-                    {item.title || "N/A"}
-                </Typography>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <Typography color="textPrimary" variant="h6">
+                        {item.title || "N/A"}
+                    </Typography>
+
+                    <Typography variant="caption" className="status_info_text">
+                        {(!downloaded && "Paper not Dowloaded yet") ||
+                            (item.startTime > new Date().valueOf() &&
+                                "Exam not started yet") ||
+                            (item.endTime < new Date().valueOf() &&
+                                "Exam time finished") ||
+                            "Ready to start"}
+                    </Typography>
+                </div>
                 <Typography variant="subtitle1" gutterBottom>
                     {item.subTitle || "N/A"}
                 </Typography>
@@ -65,6 +87,7 @@ const ExamCard = ({ item, index }) => {
                     color="primary"
                     variant="contained"
                     size="small"
+                    disabled={downloaded ? true : false}
                     startIcon={<DownloadIcon />}
                     onClick={downloadExam}
                 >
@@ -74,7 +97,17 @@ const ExamCard = ({ item, index }) => {
                     color="secondary"
                     variant="contained"
                     size="small"
-                    disabled={!secureStorage.getItem(item._id)}
+                    disabled={
+                        !downloaded ||
+                        !(
+                            item.startTime < new Date().valueOf() &&
+                            item.endTime > new Date().valueOf()
+                        )
+                    }
+                    onClick={() => {
+                        secureStorage.setItem("selectedQuiz", item._id);
+                        his.push("/exam");
+                    }}
                     startIcon={<ExamIcon />}
                 >
                     Start exam
