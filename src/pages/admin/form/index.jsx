@@ -171,6 +171,12 @@ class Form extends Component {
 
     this.handleModal();
   };
+  handleSMS = (key) => {
+    axios.post(`${backendURL}/exam/sendSMS`, {KEY: key}).then((response) => {
+      console.log(response.data);
+    })
+    .catch(error => console.log(error.message))
+  }
   handlePaperSubmit = () => {
     const {
       selectedDate,
@@ -213,6 +219,7 @@ class Form extends Component {
           msg: "Exam Saved Successfully",
           key: res.data.key,
         });
+        this.handleSMS(res.data.key);
       })
       .catch((err) => {
         this.setState({
