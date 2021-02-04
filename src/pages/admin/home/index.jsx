@@ -25,6 +25,7 @@ const UserHome = () => {
             })
             .catch((err) => {
                 console.log(err.message);
+                
             })
             .finally(() => {
                 setLoading(false);
