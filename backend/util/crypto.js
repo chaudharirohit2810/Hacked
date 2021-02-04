@@ -1,24 +1,29 @@
-const crypto = require('crypto-js')
+const crypto = require("crypto-js");
 
 function encrypt(text, key) {
-  var encrypted = crypto.AES.encrypt(text, key);  
-  return encrypted.toString();
+    var encrypted = crypto.AES.encrypt(text, key);
+    return encrypted.toString();
 }
 
 function decrypt(text, key) {
-  var decrypted = crypto.AES.decrypt(text, key);
-  return decrypted.toString(crypto.enc.Utf8);
+    var decrypted = crypto.AES.decrypt(text, key);
+    return decrypted.toString(crypto.enc.Utf8);
 }
 
 function generate_key(length) {
-   var result           = '';
-   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-   var charactersLength = characters.length;
-   for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
+    var result = "";
+    var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+        );
+    }
+    return result;
 }
+
+module.exports = { generate_key, encrypt, decrypt };
 
 //comment below lines
 
@@ -30,9 +35,7 @@ function generate_key(length) {
   paper at exam time.
 
 */
-let key = generate_key(32) + "1/1/2021:21:30";
-let enc = encrypt("some_text", key);
-console.log(enc);
-console.log(decrypt(enc, key));
-
-
+// let key = generate_key(32) + "1/1/2021:21:30";
+// let enc = encrypt("some_text", key);
+// console.log(enc);
+// console.log(decrypt(enc, key));
