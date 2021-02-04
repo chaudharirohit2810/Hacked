@@ -1,26 +1,24 @@
 const crypto = require("crypto-js");
 
 function encrypt(text, key) {
-    var encrypted = crypto.AES.encrypt(text, key);
-    return encrypted.toString();
+  var encrypted = crypto.AES.encrypt(text, key);
+  return encrypted.toString();
 }
 
 function decrypt(text, key) {
-    var decrypted = crypto.AES.decrypt(text, key);
-    return decrypted.toString(crypto.enc.Utf8);
+  var decrypted = crypto.AES.decrypt(text, key);
+  return decrypted.toString(crypto.enc.Utf8);
 }
 
 function generate_key(length) {
-    var result = "";
-    var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(
-            Math.floor(Math.random() * charactersLength)
-        );
-    }
-    return result;
+  var result = "";
+  var characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 module.exports = { generate_key, encrypt, decrypt };
