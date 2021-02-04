@@ -10,6 +10,7 @@ function App() {
             <BrowserRouter>
                 <Route exact path="/" component={UserHome} />
                 <Route exact path="/exam" component={UserExam} />
+                {/* <Route exact path="/password" component={UserPassword} /> */}
                 <Route exact path="/adminForm" component={Form} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />

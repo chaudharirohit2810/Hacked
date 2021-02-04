@@ -14,8 +14,9 @@ import {
 } from "@material-ui/icons";
 import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+
 import { backendURL, secureStorage } from "../../../config";
+import crypto from "crypto-js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,19 +31,18 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const ExamCard = ({ item, index, isadmin }) => {
+const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
     const classes = useStyles();
     const vertical = "top",
         horizontal = "center";
 
     const [downloaded, setDownloaded] = useState(
-        secureStorage.getItem(`${item._id}`)
+        secureStorage.getItem(item._id)
     );
-
-    const his = useHistory();
 
     const [infoOpen, setInfoOpen] = useState(false);
     const [successOpen, setSuccessOpen] = useState(false);
+    const [msg, setMsg] = useState("");
 
     const handleInfoClick = () => {
         setInfoOpen(true);
@@ -86,12 +86,16 @@ const ExamCard = ({ item, index, isadmin }) => {
             .get(`${backendURL}/exam/download`, { headers: { id: item._id } })
             .then((res) => {
                 handleInfoClose();
-                secureStorage.setItem(res.data._id, JSON.stringify(res.data));
+                setMsg("Paper Downloaded!");
+                secureStorage.setItem(item._id, res.data);
                 setDownloaded(true);
                 handleSuccessClick();
             })
             .catch((err) => {
                 console.log(err);
+                setMsg("Something went wrong! Please try again");
+                handleInfoClose(false);
+                handleSuccessClick();
             });
     };
 
@@ -105,8 +109,11 @@ const ExamCard = ({ item, index, isadmin }) => {
                     anchorOrigin={{ vertical, horizontal }}
                     key={vertical + horizontal}
                 >
-                    <Alert onClose={handleSuccessClose} severity="success">
-                        Paper is downloaded !
+                    <Alert
+                        onClose={handleSuccessClose}
+                        severity={msg.startsWith("P") ? "success" : "warning"}
+                    >
+                        {msg}
                     </Alert>
                 </Snackbar>
             </div>
@@ -171,6 +178,11 @@ const ExamCard = ({ item, index, isadmin }) => {
                     <Typography color="textSecondary" variant="body2">
                         <b>Total Marks: </b> {item.totalMarks}
                     </Typography>
+                    {isadmin && (
+                        <Typography color="textSecondary" variant="body2">
+                            <b>Password: </b> {item.key}
+                        </Typography>
+                    )}
                 </CardContent>
                 <CardActions
                     style={{ paddingBottom: "1rem", paddingLeft: "1rem" }}
@@ -199,11 +211,8 @@ const ExamCard = ({ item, index, isadmin }) => {
                                     )
                                 }
                                 onClick={() => {
-                                    secureStorage.setItem(
-                                        "selectedQuiz",
-                                        item._id
-                                    );
-                                    his.push("/exam");
+                                    setPasswordOpen(true);
+                                    setExamid(item._id);
                                 }}
                                 startIcon={<ExamIcon />}
                             >

@@ -20,7 +20,7 @@ const UserHome = () => {
                 },
             })
             .then((res) => {
-                secureStorage.setItem("exams", JSON.stringify(res.data));
+                // secureStorage.setItem("exams", JSON.stringify(res.data));
                 setExams(res.data);
             })
             .catch((err) => {
@@ -60,6 +60,7 @@ const UserHome = () => {
                     item={item}
                     index={index}
                     isadmin={true}
+                    exams={exams}
                 />
             ))}
         </div>
