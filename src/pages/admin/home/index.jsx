@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Style from "../../user/home/home.module.scss";
-import ExamCard from "../../user/home/examCard";
 import { Button, Divider } from "@material-ui/core";
 import axios from "axios";
-import { backendURL, secureStorage } from "../../../config";
-import Loading from "../../../components/loading";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Loading from "../../../components/loading";
+import { backendURL } from "../../../config";
+import ExamCard from "../../user/home/examCard";
+import Style from "../../user/home/home.module.scss";
 
 const UserHome = () => {
     const [exams, setExams] = useState([]);

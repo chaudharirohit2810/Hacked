@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Style from "./home.module.scss";
-import ExamCard from "./examCard";
 import { Divider, Snackbar } from "@material-ui/core";
-import axios from "axios";
-import { backendURL, secureStorage } from "../../../config";
-import Loading from "../../../components/loading";
-import PasswordModal from "./passwordModal";
 import MuiAlert from "@material-ui/lab/Alert";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Loading from "../../../components/loading";
+import { backendURL, secureStorage } from "../../../config";
+import ExamCard from "./examCard";
+import Style from "./home.module.scss";
+import PasswordModal from "./passwordModal";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;

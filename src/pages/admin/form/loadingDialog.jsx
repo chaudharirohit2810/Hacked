@@ -1,7 +1,6 @@
 import {
     CircularProgress,
     Dialog,
-    DialogTitle,
     DialogContent,
     Typography,
 } from "@material-ui/core";

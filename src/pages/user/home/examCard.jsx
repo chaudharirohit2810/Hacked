@@ -1,12 +1,11 @@
-import React, { useState } from "react";
 import {
     Button,
     Card,
     CardActions,
     CardContent,
-    Typography,
     makeStyles,
     Snackbar,
+    Typography,
 } from "@material-ui/core";
 import {
     CloudDownloadOutlined as DownloadIcon,
@@ -14,9 +13,8 @@ import {
 } from "@material-ui/icons";
 import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
-
+import React, { useState } from "react";
 import { backendURL, secureStorage } from "../../../config";
-import crypto from "crypto-js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
