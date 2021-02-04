@@ -54,6 +54,7 @@ const PasswordModal = ({
             <DialogContent>
                 <Grid style={{ width: "300px" }}>
                     <TextField
+                        type="password"
                         variant="outlined"
                         required
                         fullWidth
