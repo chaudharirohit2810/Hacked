@@ -84,6 +84,8 @@ class Form extends Component {
       modalOpen: false,
       confirmOpen: false,
       successOpen: false,
+      SMSmsg: "",
+      SMSOpen: false,
       msg: "Exam Saved Successfully",
       key: "",
       question: "",
@@ -171,8 +173,17 @@ class Form extends Component {
 
     this.handleModal();
   };
+  handleSMSModal = () => {
+    this.setState({
+      SMSOpen : !this.state.SMSOpen,
+    })
+  }
   handleSMS = (key) => {
     axios.post(`${backendURL}/exam/sendSMS`, {KEY: key}).then((response) => {
+      this.setState({
+        SMSmsg: "SMS Sent successfully !"
+      })
+      this.handleSMSModal();
       console.log(response.data);
     })
     .catch(error => console.log(error.message))
@@ -260,6 +271,14 @@ class Form extends Component {
           maxWidth: "68rem",
         }}
       >
+        <Snackbar
+          open={this.state.SMSOpen}
+          autoHideDuration={4000}
+          onClose={this.handleSMSModal}
+          anchorOrigin={{ horizontal: "right", vertical: "top" }}
+        >
+          <Alert severity="success">{this.state.SMSmsg}</Alert>
+        </Snackbar>
         <Snackbar
           open={this.state.validationMsg !== ""}
           autoHideDuration={3000}
