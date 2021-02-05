@@ -20,7 +20,7 @@ router.route("/sendSMS").post(async (req, res) => {
     const parsedUsers = JSON.parse(JSON.stringify(users));
     const NUMBERS = parsedUsers.map((user, index) => user.contactNumber);
     const SMS_API_KEY = config.get("SMS_API_KEY");
-    await fast2sms
+    fast2sms
       .sendMessage({
         authorization: SMS_API_KEY,
         message: `Exam Password: ${KEY}`,
