@@ -1,5 +1,6 @@
 {
     "mongoURI": "mongodb://localhost:27017",
     "mongoAtlas": "",
-    "backendURL": "http://localhost:5000/api"
+    "backendURL": "http://localhost:5000/api",
+    "SMS_API_KEY": "icxV8pwCeAuBlnOMf7PNGykRYE3jWm6UtKasLTHF4o5vXQZqzg5azf6qhnTwXIm4B8WrO9ENcRdAgejM"
 }

@@ -219,7 +219,11 @@ class Form extends Component {
           msg: "Exam Saved Successfully",
           key: res.data.key,
         });
-        this.handleSMS(res.data.key);
+        /*
+          UNCOMMENT THIS 
+          TO ACTIVATE SMS SERVICE
+        */
+        // this.handleSMS(res.data.key);
       })
       .catch((err) => {
         this.setState({
