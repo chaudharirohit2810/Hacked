@@ -151,6 +151,7 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
         handleAnswerInfoClick();
         const data = {
             examID: item._id,
+            collegeID: secureStorage.getItem("collegeID"),
             answers: savedAnswers,
         };
         axios

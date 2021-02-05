@@ -1,4 +1,4 @@
-import { Divider, Snackbar } from "@material-ui/core";
+import { Button, Divider, Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -69,8 +69,29 @@ const UserHome = () => {
                 setError={setError}
                 navigateToExam={navigateToExam}
             />
-            <h1>Available exam papers</h1>
-            <Divider />
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    paddingBottom: "1rem",
+                    marginTop: "0.5rem",
+                }}
+            >
+                <h1>Available exam papers</h1>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                        secureStorage.clear();
+                        his.replace("/login");
+                    }}
+                >
+                    LogOut
+                </Button>
+            </div>
+            <Divider style={{ margin: 0 }} />
             {exams.map((item, index) => (
                 <ExamCard
                     key={index}

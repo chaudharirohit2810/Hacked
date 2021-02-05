@@ -32,7 +32,7 @@ const Exam = () => {
         his.replace("/");
     };
 
-    if (!exam) {
+    if (!exam || !secureStorage.getItem("userImage")) {
         return (
             <>
                 {secureStorage.removeItem("answers")}
