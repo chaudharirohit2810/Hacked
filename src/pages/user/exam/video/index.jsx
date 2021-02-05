@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
+import { secureStorage } from "../../../../config";
 
 const VideoComponent = () => {
     const videoCompo = useRef(null);
@@ -7,23 +8,34 @@ const VideoComponent = () => {
     const [labeledDescriptors, setLabeledDescriptors] = useState(null);
 
     const loadLabeledImages = () => {
-        const labels = ["Rohit Chaudhari", "Prashant Kumar"]; // for WebCam
+        const labels = ["Student"]; // for WebCam
         return Promise.all(
             labels.map(async (label) => {
                 const descriptions = [];
-                for (let i = 1; i < 2; i++) {
-                    const img = await faceapi.fetchImage(
-                        `${process.env.PUBLIC_URL}/labeled_images/${label}/${i}.jpg`
-                    );
+                // for (let i = 1; i <= 2; i++) {
+                //     const img = await faceapi.fetchImage(
+                //         `${process.env.PUBLIC_URL}/labeled_images/${label}/${i}.jpg`
+                //     );
 
+                //     const detections = await faceapi
+                //         .detectSingleFace(img)
+                //         .withFaceLandmarks()
+                //         .withFaceDescriptor();
+                //     // console.log(label + i + JSON.stringify(detections));
+                //     descriptions.push(detections.descriptor);
+                // }
+                const images = JSON.parse(secureStorage.getItem("userImage"));
+                for (let i = 0; i < images.length; i++) {
+                    const imgEle = document.createElement("img");
+                    imgEle.src = images[i];
                     const detections = await faceapi
-                        .detectSingleFace(img)
+                        .detectSingleFace(imgEle)
                         .withFaceLandmarks()
                         .withFaceDescriptor();
-                    // console.log(label + i + JSON.stringify(detections));
+
                     descriptions.push(detections.descriptor);
                 }
-                // document.body.append(label + " Faces Loaded | ");
+
                 return new faceapi.LabeledFaceDescriptors(label, descriptions);
             })
         );
