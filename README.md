@@ -1,15 +1,13 @@
-<h1 align="center">
-	Offline Exam Portal
-</h1>
+# Offline Exam Portal
 
 
-## Problem Statement
+## :confused: Problem Statement
 Amid this coronavirus pandemic, all the education systems have switched to the online mode of examination,  but many students live in areas that have a shaky internet connection. They have to travel a few kilometers to just attend the exam. Sometimes, even if students have a solid internet connection the college server is not simply capable of handling the load of thousands of students which also results in inconvenience for students. To solve such problems, we have built a intuitive web app that will allow students to attempt the exam in the complete offline mode. 
 
-## Solution Proposed
+## :bulb: Solution Proposed
 The Admin / Examiner / Appropriate Authority will have the option to set the paper with flexible format (Time limit, number of questions, etc) on a web app. Then a download option will be available to each student. Now, whenever a student requests to download the exam paper, an encrypted file will be sent to the end-user. This file will be encrypted using the AES algorithm and the key will be a combination of some of the exam data and some randomly generated numbers. Once the exam paper is downloaded there is no need for an internet connection to attend the exam. Just before the exam time, a msg that contains part of the key will be sent to the student using SMS which will be termed as exam password. This exam password and some of the exam data will act as keys and will decrypt the downloaded file at the start of exam. Now the student will be able to attend the exam in completely offline mode and he will also be monitored during this time using functionalities like  facial recognition, tab switching, etc. The answers given by the student will be saved in the local storage of the browser in the encrypted format and whenever the user gets an internet connection, then his/her answers along with the results of facial recognition will be sent to the server, and depending on that student will receive his grades.
 
-## Tech Stack
+## :computer: Tech Stack
 - MERN Stack
   - MongoDB
   - Express
@@ -18,7 +16,7 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 - Progressive Web application
 - Material UI
 
-## Team Members:
+## 👦🏽 Team Members:
 - [Rohit Chaudhari](https://github.com/chaudharirohit2810)
 - [Viraj Jadhav](https://github.com/VirajJadhav)
 - [Prajwal Adsul](https://github.com/PrajwalAdsul)
