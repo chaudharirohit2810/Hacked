@@ -1,7 +1,9 @@
 # Offline Exam Portal
 
-- <a href="#-problem-statement">Problem Statement</a>
+- <a href="#confused-problem-statement">Problem Statement</a>
+- <a href="#bulb-solution-proposed">Solution Proposed</a>
 - <a href="#computer-tech-stack">Tech Stack</a>
+- <a href="#-team-members">Team Members</a>
 
 
 
