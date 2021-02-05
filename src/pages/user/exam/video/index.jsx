@@ -3,7 +3,6 @@ import * as faceapi from "face-api.js";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { secureStorage } from "../../../../config";
-import useSecureStorage from "../../../../hooks/useSecureStorage";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -13,6 +12,9 @@ const VideoComponent = ({ warnings, setWarnings }) => {
     const videoCompo = useRef(null);
 
     const [labeledDescriptors, setLabeledDescriptors] = useState(null);
+    let warningCount = secureStorage.getItem("faceWarnings")
+        ? parseInt(secureStorage.getItem("faceWarnings"))
+        : 0;
     const [error, setError] = useState("");
 
     const loadLabeledImages = () => {
@@ -78,10 +80,14 @@ const VideoComponent = ({ warnings, setWarnings }) => {
                 });
                 // console.log(results);
                 if (results.length !== 1) {
+                    ++warningCount;
+                    secureStorage.setItem("faceWarnings", warningCount);
                     setError(`Your face is not getting detected.`);
                     return;
                 }
                 if (results[0]._label !== "Student") {
+                    ++warningCount;
+                    secureStorage.setItem("faceWarnings", warningCount);
                     setError(`Your face is not getting detected.`);
                     return;
                 }

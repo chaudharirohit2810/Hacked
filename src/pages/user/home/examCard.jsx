@@ -153,7 +153,10 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
             examID: item._id,
             collegeID: secureStorage.getItem("collegeID"),
             answers: savedAnswers,
+            tabSwitched: secureStorage.getItem("notFocusedCount"),
+            faceWarnings: secureStorage.getItem(`${item._id}_faceWarnings`),
         };
+        console.log(data);
         axios
             .post(`${backendURL}/answer/submitAnswers`, data)
             .then((response) => {
@@ -161,6 +164,7 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
                 // console.log(response.data);
                 setMsg(response.data);
                 // setIsSavedAnswer(false);
+                secureStorage.removeItem("notFocusedCount");
                 let arr = secureStorage.getItem("submittedQuiz");
                 if (!arr) {
                     arr = [];
@@ -169,6 +173,7 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
                 arr.push(item._id);
                 secureStorage.setItem("submittedQuiz", arr);
                 secureStorage.removeItem(`${data.examID}_answer`);
+                secureStorage.removeItem(`${item._id}_faceWarnings`);
                 handleAnswerSuccessClick();
             })
             .catch((error) => {
