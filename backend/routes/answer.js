@@ -4,11 +4,13 @@ const Types = require("mongoose").Types;
 
 router.route("/submitAnswers").post(async (req, res) => {
   try {
-    const { examID, answers } = req.body;
+    const { examID, answers, collegeID, tabSwitched } = req.body;
     const EID = Types.ObjectId(examID);
     const newAnswer = new Answer({
       examID: EID,
       answers,
+      collegeID,
+      tabSwitched,
     });
     // console.log(newAnswer);
     newAnswer
