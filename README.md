@@ -1,5 +1,5 @@
 # Offline Exam Portal
-
+A intituitive exam portal based on MERN stack which allows students to attend the exam in completely offline environment.
 
 
 
