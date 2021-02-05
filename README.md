@@ -2,7 +2,7 @@
   Offline Exam Portal
 </h1>
 <h3 align="center"> 
-A intituitive exam portal based on MERN stack which allows students to attend the exam in completely offline environment.
+A intituitive web app which allows students to attend the exam in completely offline environment.
 </h3>
 
 
