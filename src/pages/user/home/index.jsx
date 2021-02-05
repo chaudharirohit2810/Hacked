@@ -35,7 +35,7 @@ const UserHome = () => {
             })
             .catch((err) => {
                 console.log(err.message);
-                setExams(JSON.parse(localStorage.getItem("exams")));
+                setExams(JSON.parse(secureStorage.getItem("exams")));
             })
             .finally(() => {
                 setLoading(false);
