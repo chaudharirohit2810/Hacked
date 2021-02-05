@@ -1,11 +1,19 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
+import { Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import { secureStorage } from "../../../../config";
+import useSecureStorage from "../../../../hooks/useSecureStorage";
 
-const VideoComponent = () => {
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const VideoComponent = ({ warnings, setWarnings }) => {
     const videoCompo = useRef(null);
 
     const [labeledDescriptors, setLabeledDescriptors] = useState(null);
+    const [error, setError] = useState("");
 
     const loadLabeledImages = () => {
         const labels = ["Student"]; // for WebCam
@@ -68,7 +76,15 @@ const VideoComponent = () => {
                 const results = resizedDetections.map((d) => {
                     return faceMatcher.findBestMatch(d.descriptor);
                 });
-                console.log(results);
+                // console.log(results);
+                if (results.length !== 1) {
+                    setError(`Your face is not getting detected.`);
+                    return;
+                }
+                if (results[0]._label !== "Student") {
+                    setError(`Your face is not getting detected.`);
+                    return;
+                }
                 results.forEach((result, i) => {
                     const box = resizedDetections[i].detection.box;
                     const drawBox = new faceapi.draw.DrawBox(box, {
@@ -88,16 +104,13 @@ const VideoComponent = () => {
                 await faceapi.nets.faceRecognitionNet.loadFromUri(model_path);
                 await faceapi.nets.faceLandmark68Net.loadFromUri(model_path);
 
-                console.log("Models loaded");
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: true,
                     audio: false,
                 });
                 videoCompo.current.srcObject = stream;
                 const tempLabel = await loadLabeledImages();
-                console.log(tempLabel);
                 setLabeledDescriptors(tempLabel);
-                // startVideoListener();
                 videoCompo.current.play();
             } catch (error) {
                 console.log(error.message);
@@ -119,9 +132,16 @@ const VideoComponent = () => {
                 position: "relative",
             }}
         >
+            <Snackbar
+                open={error !== ""}
+                autoHideDuration={3000}
+                onClose={() => setError("")}
+                anchorOrigin={{ horizontal: "center", vertical: "top" }}
+            >
+                <Alert severity="error">{error}</Alert>
+            </Snackbar>
             <div
                 style={{
-                    border: "2px solid red",
                     width: "300px",
                     height: "240px",
                     position: "absolute",
@@ -136,7 +156,6 @@ const VideoComponent = () => {
                 width="300"
                 height="240"
                 muted
-                style={{ border: "2px solid red" }}
                 ref={videoCompo}
                 onPlay={startVideoListener}
                 autoPlay={false}

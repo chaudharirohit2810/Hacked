@@ -24,6 +24,8 @@ const Exam = () => {
         })
     );
 
+    const [warnings, setWarnings] = useSecureStorage("warnings", 0);
+
     const onSubmit = () => {
         const newAnswer = JSON.stringify(answers);
         const ID = String(exam._id);
@@ -80,7 +82,11 @@ const Exam = () => {
                         onSubmit={onSubmit}
                     />
                 )}
-                <TimeVideoComponent endTime={exam.endTime} />
+                <TimeVideoComponent
+                    endTime={exam.endTime}
+                    warnings={warnings}
+                    setWarnings={setWarnings}
+                />
             </Paper>
         </Paper>
     );

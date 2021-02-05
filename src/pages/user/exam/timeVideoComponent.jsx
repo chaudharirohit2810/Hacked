@@ -4,7 +4,7 @@ import CountDownTimer from "./countdownTimer";
 import { Paper, Typography } from "@material-ui/core";
 import Video from "./video";
 
-const TimeVideoComponent = ({ endTime }) => {
+const TimeVideoComponent = ({ endTime, warnings, setWarnings }) => {
     return (
         <Paper className={Style.time_container} variant="outlined">
             <Typography variant="subtitle1" gutterBottom>
@@ -14,7 +14,7 @@ const TimeVideoComponent = ({ endTime }) => {
             {/* <Typography variant="subtitle1" style={{ marginTop: "1rem" }}>
                 Video component will be right here
             </Typography> */}
-            <Video />
+            <Video warnings={warnings} setWarnings={setWarnings} />
         </Paper>
     );
 };
