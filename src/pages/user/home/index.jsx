@@ -2,7 +2,7 @@ import { Divider, Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import Loading from "../../../components/loading";
 import { backendURL, secureStorage } from "../../../config";
 import ExamCard from "./examCard";
@@ -41,6 +41,12 @@ const UserHome = () => {
                 setLoading(false);
             });
     }, []);
+    if (
+        !secureStorage.getItem("collegeID") ||
+        !secureStorage.getItem("userImage")
+    ) {
+        return <Redirect to="/login" />;
+    }
     if (loading) {
         return <Loading />;
     }

@@ -56,11 +56,13 @@ class Login extends React.Component {
         axios
             .post(`${backendURL}/user/login`, data)
             .then((response) => {
-                console.log(response.data.result.images);
-                // console.log(response.data);
                 secureStorage.setItem(
                     "userImage",
                     JSON.stringify(response.data.result.images)
+                );
+                secureStorage.setItem(
+                    "collegeID",
+                    response.data.result.collegeID
                 );
                 if (!response.data.error) {
                     this.props.history.push("/");

@@ -12,18 +12,6 @@ const VideoComponent = () => {
         return Promise.all(
             labels.map(async (label) => {
                 const descriptions = [];
-                // for (let i = 1; i <= 2; i++) {
-                //     const img = await faceapi.fetchImage(
-                //         `${process.env.PUBLIC_URL}/labeled_images/${label}/${i}.jpg`
-                //     );
-
-                //     const detections = await faceapi
-                //         .detectSingleFace(img)
-                //         .withFaceLandmarks()
-                //         .withFaceDescriptor();
-                //     // console.log(label + i + JSON.stringify(detections));
-                //     descriptions.push(detections.descriptor);
-                // }
                 const images = JSON.parse(secureStorage.getItem("userImage"));
                 for (let i = 0; i < images.length; i++) {
                     const imgEle = document.createElement("img");
