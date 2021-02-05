@@ -1,15 +1,17 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
 
 const VideoComponent = () => {
     const videoCompo = useRef(null);
 
+    const [labeledDescriptors, setLabeledDescriptors] = useState(null);
+
     const loadLabeledImages = () => {
-        const labels = ["Prashant Kumar"]; // for WebCam
+        const labels = ["Rohit Chaudhari", "Prashant Kumar"]; // for WebCam
         return Promise.all(
             labels.map(async (label) => {
                 const descriptions = [];
-                for (let i = 1; i <= 2; i++) {
+                for (let i = 1; i < 2; i++) {
                     const img = await faceapi.fetchImage(
                         `${process.env.PUBLIC_URL}/labeled_images/${label}/${i}.jpg`
                     );
@@ -27,15 +29,18 @@ const VideoComponent = () => {
         );
     };
 
-    async function recognizeFaces() {
-        const labeledDescriptors = await loadLabeledImages();
-        // console.log(labeledDescriptors);
-        const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.7);
+    async function startVideoListener(e) {
+        const mainVideo = e.target;
+        const videoContainer = document.getElementById("canvasContainer");
+        if (labeledDescriptors) {
+            const canvas = faceapi.createCanvasFromMedia(mainVideo);
+            videoContainer.innerHTML = "";
+            videoContainer.append(canvas);
 
-        videoCompo.current.addEventListener("play", async () => {
-            // console.log("Playing");
-            const canvas = faceapi.createCanvasFromMedia(videoCompo.current);
-            document.body.append(canvas);
+            const faceMatcher = new faceapi.FaceMatcher(
+                labeledDescriptors,
+                0.7
+            );
 
             const displaySize = {
                 width: videoCompo.current.width,
@@ -45,8 +50,9 @@ const VideoComponent = () => {
             faceapi.matchDimensions(canvas, displaySize);
 
             setInterval(async () => {
+                // console.log("Inside interval");
                 const detections = await faceapi
-                    .detectAllFaces(videoCompo.current)
+                    .detectAllFaces(mainVideo)
                     .withFaceLandmarks()
                     .withFaceDescriptors();
 
@@ -62,6 +68,7 @@ const VideoComponent = () => {
                 const results = resizedDetections.map((d) => {
                     return faceMatcher.findBestMatch(d.descriptor);
                 });
+                console.log(results);
                 results.forEach((result, i) => {
                     const box = resizedDetections[i].detection.box;
                     const drawBox = new faceapi.draw.DrawBox(box, {
@@ -69,8 +76,8 @@ const VideoComponent = () => {
                     });
                     drawBox.draw(canvas);
                 });
-            }, 100);
-        });
+            }, 3000);
+        }
     }
 
     useEffect(() => {
@@ -87,7 +94,11 @@ const VideoComponent = () => {
                     audio: false,
                 });
                 videoCompo.current.srcObject = stream;
-                recognizeFaces();
+                const tempLabel = await loadLabeledImages();
+                console.log(tempLabel);
+                setLabeledDescriptors(tempLabel);
+                // startVideoListener();
+                videoCompo.current.play();
             } catch (error) {
                 console.log(error.message);
             }
@@ -96,7 +107,30 @@ const VideoComponent = () => {
     }, []);
 
     return (
-        <>
+        <div
+            id="videoContainer"
+            style={{
+                margin: 0,
+                padding: 0,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                position: "relative",
+            }}
+        >
+            <div
+                style={{
+                    border: "2px solid red",
+                    width: "300px",
+                    height: "240px",
+                    position: "absolute",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+                id="canvasContainer"
+            ></div>
             <video
                 id="videoInput"
                 width="300"
@@ -104,10 +138,10 @@ const VideoComponent = () => {
                 muted
                 style={{ border: "2px solid red" }}
                 ref={videoCompo}
-                // controls
-                autoPlay
+                onPlay={startVideoListener}
+                autoPlay={false}
             />
-        </>
+        </div>
     );
 };
 
