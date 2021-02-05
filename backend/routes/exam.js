@@ -1,42 +1,58 @@
 const router = require("express").Router();
 const Exam = require("../models/exam");
 const User = require("../models/User");
-const Nexmo = require("nexmo");
-const nexmo = new Nexmo(
-  {
-    apiKey: "1374c521",
-    apiSecret: "qYx6GFMz93WKjE6m",
-  },
-  { debug: true }
-);
+const config = require("config");
 const { generate_key, encrypt, decrypt } = require("../util/crypto");
+const fast2sms = require("fast-two-sms");
+// const Nexmo = require("nexmo");
+// const nexmo = new Nexmo(
+//   {
+//     apiKey: "",
+//     apiSecret: "",
+//   },
+//   { debug: true }
+// );
 
-// router.route("/sendSMS").post(async (req, res) => {
-//   try {
-//     const { KEY } = req.body;
-//     const users = await User.find();
-//     const parsedUsers = JSON.parse(JSON.stringify(users));
-//     await parsedUsers.forEach((user, index) => {
-//       nexmo.message.sendSms(
-//         "919767412232",
-//         user.contactNumber,
-//         KEY,
-//         { type: "unicode" },
-//         (error, responseData) => {
-//           if (error) {
-//             console.log(error);
-//           } else {
-//             console.log(responseData.messages);
-//           }
-//         }
-//       );
-//     });
-//     res.status(200).send("SMS sent successfully !");
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(400).send(error.message);
-//   }
-// });
+router.route("/sendSMS").post(async (req, res) => {
+  try {
+    const { KEY } = req.body;
+    const users = await User.find();
+    const parsedUsers = JSON.parse(JSON.stringify(users));
+    const NUMBERS = parsedUsers.map((user, index) => user.contactNumber);
+    const SMS_API_KEY = config.get("SMS_API_KEY");
+    await fast2sms
+      .sendMessage({
+        authorization: SMS_API_KEY,
+        message: `Exam Password: ${KEY}`,
+        numbers: NUMBERS,
+      })
+      .then((response) => {
+        // console.log(response);
+        res.status(200).send("SMS sent successfully !");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        res.status(400).send(error.message);
+      });
+
+    // nexmo.message.sendSms(
+    //   "NUMBER",
+    //   user.contactNumber,
+    //   KEY,
+    //   { type: "unicode" },
+    //   (error, responseData) => {
+    //     if (error) {
+    //       console.log(error);
+    //     } else {
+    //       console.log(responseData.messages);
+    //     }
+    //   }
+    // );
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error.message);
+  }
+});
 
 router.route("/").get(async (req, res) => {
   try {
