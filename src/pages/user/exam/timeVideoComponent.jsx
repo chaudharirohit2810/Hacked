@@ -2,6 +2,7 @@ import React from "react";
 import Style from "./exam.module.scss";
 import CountDownTimer from "./countdownTimer";
 import { Paper, Typography } from "@material-ui/core";
+import Video from "./video";
 
 const TimeVideoComponent = ({ endTime }) => {
     return (
@@ -10,9 +11,10 @@ const TimeVideoComponent = ({ endTime }) => {
                 Time remaining:{" "}
             </Typography>
             <CountDownTimer endTime={endTime} />
-            <Typography variant="subtitle1" style={{ marginTop: "1rem" }}>
+            {/* <Typography variant="subtitle1" style={{ marginTop: "1rem" }}>
                 Video component will be right here
-            </Typography>
+            </Typography> */}
+            <Video />
         </Paper>
     );
 };
