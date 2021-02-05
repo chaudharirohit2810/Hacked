@@ -1,7 +1,7 @@
 # Offline Exam Portal
 
 - <a href="#-problem-statement">Problem Statement</a>
-- <a href="#-tech-stack">Tech Stack</a>
+- <a href="#computer-tech-stack">Tech Stack</a>
 
 
 
