@@ -20,6 +20,9 @@ Amid this coronavirus pandemic, all the education systems have switched to the o
 
 ## :bulb: Solution Proposed
 The Admin / Examiner / Appropriate Authority will have the option to set the paper with flexible format (Time limit, number of questions, etc) on a web app. Then a download option will be available to each student. Now, whenever a student requests to download the exam paper, an encrypted file will be sent to the end-user. This file will be encrypted using the AES algorithm and the key will be a combination of some of the exam data and some randomly generated numbers. Once the exam paper is downloaded there is no need for an internet connection to attend the exam. Just before the exam time, a msg that contains part of the key will be sent to the student using SMS which will be termed as exam password. This exam password and some of the exam data will act as keys and will decrypt the downloaded file at the start of exam. Now the student will be able to attend the exam in completely offline mode and he will also be monitored during this time using functionalities like  facial recognition, tab switching, etc. The answers given by the student will be saved in the local storage of the browser in the encrypted format and whenever the user gets an internet connection, then his/her answers along with the results of facial recognition will be sent to the server, and depending on that student will receive his grades.
+<p style="padding: 20px;">
+<img src="images/flow.png"/>
+ </p>
 
 ## :computer: Tech Stack
 - MERN Stack

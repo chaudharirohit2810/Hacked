@@ -1,5 +1,13 @@
 import "./App.css";
-import { UserHome, UserExam, Form, Register, Login, AdminHome } from "./pages";
+import {
+  UserHome,
+  UserExam,
+  Form,
+  Register,
+  Login,
+  AdminHome,
+  Review,
+} from "./pages";
 import { BrowserRouter, Route } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "./theme";
@@ -15,6 +23,7 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/admin" component={AdminHome} />
+        <Route exact path="/review" component={Review} />
       </BrowserRouter>
     </ThemeProvider>
   );
