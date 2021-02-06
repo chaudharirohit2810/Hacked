@@ -11,7 +11,10 @@ function Alert(props) {
 const VideoComponent = ({ warnings, setWarnings }) => {
     const videoCompo = useRef(null);
 
+    let stopSetInterval = null;
+
     const [labeledDescriptors, setLabeledDescriptors] = useState(null);
+    let stream = null;
     let warningCount = secureStorage.getItem("faceWarnings")
         ? parseInt(secureStorage.getItem("faceWarnings"))
         : 0;
@@ -59,7 +62,7 @@ const VideoComponent = ({ warnings, setWarnings }) => {
 
             faceapi.matchDimensions(canvas, displaySize);
 
-            setInterval(async () => {
+            stopSetInterval = setInterval(async () => {
                 // console.log("Inside interval");
                 const detections = await faceapi
                     .detectAllFaces(mainVideo)
@@ -110,7 +113,7 @@ const VideoComponent = ({ warnings, setWarnings }) => {
                 await faceapi.nets.faceRecognitionNet.loadFromUri(model_path);
                 await faceapi.nets.faceLandmark68Net.loadFromUri(model_path);
 
-                const stream = await navigator.mediaDevices.getUserMedia({
+                stream = await navigator.mediaDevices.getUserMedia({
                     video: true,
                     audio: false,
                 });
@@ -123,6 +126,14 @@ const VideoComponent = ({ warnings, setWarnings }) => {
             }
         }
         setupVideo();
+
+        return function cleanup() {
+            clearInterval(stopSetInterval);
+            // videoCompo.current.pause();
+            stream.getTracks().forEach(function (track) {
+                track.stop();
+            });
+        };
     }, []);
 
     return (
