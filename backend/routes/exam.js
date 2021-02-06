@@ -54,6 +54,27 @@ router.route("/sendSMS").post(async (req, res) => {
   }
 });
 
+router.route("/getExam/:examID").get(async (req, res) => {
+  try {
+    const examID = req.params.examID;
+    var exam = await Exam.findById(examID);
+    exam = JSON.stringify(exam);
+    exam = JSON.parse(exam);
+    let totalMarks = 0;
+    exam.Questions.forEach((element) => {
+      totalMarks += parseInt(element["marks"]);
+    });
+
+    res.status(200).send({
+      exam,
+      totalMarks,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).send(err.message);
+  }
+});
+
 router.route("/").get(async (req, res) => {
   try {
     const admin = req.header("isadmin");
