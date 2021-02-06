@@ -11,7 +11,7 @@ import { clientsClaim } from "workbox-core";
 import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
-import { StaleWhileRevalidate } from "workbox-strategies";
+import { StaleWhileRevalidate, CacheFirst } from "workbox-strategies";
 
 clientsClaim();
 
@@ -20,6 +20,7 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute([{ url: "/models", revision: null }]);
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -58,6 +59,20 @@ registerRoute(
             // Ensure that once this runtime cache reaches a maximum size the
             // least-recently used images are removed.
             new ExpirationPlugin({ maxEntries: 50 }),
+        ],
+    })
+);
+
+registerRoute(
+    // Add in any other file extensions or routing criteria as needed.
+    ({ url }) =>
+        url.origin === self.location.origin && url.pathname.includes("models"), // Customize this strategy as needed, e.g., by changing to CacheFirst.
+    new CacheFirst({
+        cacheName: "models",
+        plugins: [
+            // Ensure that once this runtime cache reaches a maximum size the
+            // least-recently used images are removed.
+            new ExpirationPlugin({ maxEntries: 100 }),
         ],
     })
 );

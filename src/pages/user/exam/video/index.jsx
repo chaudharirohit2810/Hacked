@@ -117,11 +117,13 @@ const VideoComponent = ({ warnings, setWarnings }) => {
                     video: true,
                     audio: false,
                 });
+
                 videoCompo.current.srcObject = stream;
                 const tempLabel = await loadLabeledImages();
                 setLabeledDescriptors(tempLabel);
                 videoCompo.current.play();
             } catch (error) {
+                setError(error.message);
                 console.log(error.message);
             }
         }
@@ -130,9 +132,11 @@ const VideoComponent = ({ warnings, setWarnings }) => {
         return function cleanup() {
             clearInterval(stopSetInterval);
             // videoCompo.current.pause();
-            stream.getTracks().forEach(function (track) {
-                track.stop();
-            });
+            if (stream) {
+                stream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+            }
         };
     }, []);
 

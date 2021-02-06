@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 import axios from "axios";
+import * as faceapi from "face-api.js";
 import { backendURL, secureStorage } from "../../../config";
 
 function Copyright() {
@@ -45,7 +46,7 @@ class Login extends React.Component {
             [event.target.name]: event.target.value,
         });
     };
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
         event.persist();
         const { collegeID, password } = this.state;
@@ -53,6 +54,10 @@ class Login extends React.Component {
             collegeID,
             password,
         };
+        const model_path = `${process.env.PUBLIC_URL}/models`;
+        await faceapi.nets.ssdMobilenetv1.loadFromUri(model_path);
+        await faceapi.nets.faceRecognitionNet.loadFromUri(model_path);
+        await faceapi.nets.faceLandmark68Net.loadFromUri(model_path);
         axios
             .post(`${backendURL}/user/login`, data)
             .then((response) => {
