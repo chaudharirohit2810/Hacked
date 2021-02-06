@@ -31,7 +31,8 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 - Will even work in rural areas / areas with low internet / zero internet bandwidth.
 - Help in reducing the load on college server.
 - Security (as paper format will be encrypted and decrypted on individual devices).
-- Time-to-time status of each candidate will be sent to admin over sms (Irrelevant of internet connection) and final report will also be attached to answer sheet automatically.
+- Password of exam / Decryption key will be sent to each candidate over SMS as soon as admin creates an exam.
+- Facial and Tab Switching status of each candidate along final report of answers will be attached to answer sheet and sent to admin in presence of internet connectivity.
 - Candidate will be monitored the whole time during exam.
 - Admin will have extra privilege to set questions at individual level (as unique key will be associated with each candidate for decryption).
 - Exams at your home comfort.
