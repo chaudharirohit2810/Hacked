@@ -12,7 +12,7 @@ A intituitive web app which allows students to attend the exam in completely off
 - <a href="#confused-problem-statement">Problem Statement</a>
 - <a href="#bulb-solution-proposed">Solution Proposed</a>
 - <a href="#sparkles-advantages">Advantages</a>
-- <a href="#deployment-instructions">Deployment Instructions</a>
+- <a href="#cloud-deployment-instructions">Deployment Instructions</a>
 - <a href="#computer-tech-stack">Tech Stack</a>
 - <a href="#-team-members">Team Members</a>
 
@@ -39,7 +39,7 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 - Admin will have extra privilege to set questions at individual level (as unique key will be associated with each candidate for decryption).
 - Exams at your home comfort.
 
-## Deployment Instructions
+## :cloud: Deployment Instructions
 
 - **Prerequisites**:
 
