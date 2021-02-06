@@ -7,6 +7,10 @@
 A intituitive web app which allows students to attend the exam in completely offline environment.
 </h3>
 
+## Live Server Links: 
+- Student: https://hacked.rohitchaudhari.me/login
+- Teachers: https://hacked.rohitchaudhari.me/admin
+
 ## Table of Contents
 
 - <a href="#confused-problem-statement">Problem Statement</a>
