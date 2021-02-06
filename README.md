@@ -57,7 +57,7 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 ### Backend
 
 - Install Dependencies required for backend:\
-  `npm install`
+  `cd backend && npm install`
 - Install Pm2:\
   `sudo npm install pm2@latest -g`
 - Start the backend server:\
@@ -82,7 +82,7 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 
 ### Frontend:
 
-- Install Dependencies required for backend:\
+- Install Dependencies required for backend (cd into root project folder):\
   `npm install`
 - Open the config.js file in src folder:\
   `cd src && vim config.js`
