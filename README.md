@@ -11,6 +11,8 @@ A intituitive web app which allows students to attend the exam in completely off
 
 - <a href="#confused-problem-statement">Problem Statement</a>
 - <a href="#bulb-solution-proposed">Solution Proposed</a>
+- <a href="#sparkles-advantages">Advantages</a>
+- <a href="#deployment-instructions">Deployment Instructions</a>
 - <a href="#computer-tech-stack">Tech Stack</a>
 - <a href="#-team-members">Team Members</a>
 
