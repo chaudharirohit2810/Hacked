@@ -1,4 +1,5 @@
 ### LeoCode
+
 <h1 align="center">
   Offline Exam Portal
 </h1>
@@ -24,6 +25,16 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 <p style="padding: 20px;">
 <img src="images/flow.png"/>
  </p>
+
+## :sparkles: Advantages
+
+- Will even work in rural areas / areas with low internet / zero internet bandwidth.
+- Help in reducing the load on college server.
+- Security (as paper format will be encrypted and decrypted on individual devices).
+- Time-to-time status of each candidate will be sent to admin over sms (Irrelevant of internet connection) and final report will also be attached to answer sheet automatically.
+- Candidate will be monitored the whole time during exam.
+- Admin will have extra privilege to set questions at individual level (as unique key will be associated with each candidate for decryption).
+- Exams at your home comfort.
 
 ## :computer: Tech Stack
 
