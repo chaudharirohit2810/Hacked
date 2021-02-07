@@ -38,7 +38,7 @@ The Admin / Examiner / Appropriate Authority will have the option to set the pap
 - Help in reducing the load on college server.
 - Security (as paper format will be encrypted and decrypted on individual devices).
 - Password of exam / Decryption key will be sent to each candidate over SMS as soon as admin creates an exam.
-- Facial and Tab Switching status of each candidate along final report of answers will be attached to answer sheet and sent to admin in presence of internet connectivity.
+- Facial and Tab Switching status of each candidate along final report of answers will be attached to answer sheet (offline) and sent to admin in presence of internet connectivity.
 - Candidate will be monitored the whole time during exam.
 - Admin will have extra privilege to set questions at individual level (as unique key will be associated with each candidate for decryption).
 - Exams at your home comfort.
