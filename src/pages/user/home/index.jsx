@@ -28,7 +28,11 @@ const UserHome = () => {
 
     useEffect(() => {
         axios
-            .get(`${backendURL}/exam/`)
+            .get(`${backendURL}/exam/`, {
+                headers: {
+                    collegeID: secureStorage.getItem("collegeID"),
+                },
+            })
             .then((res) => {
                 secureStorage.setItem("exams", JSON.stringify(res.data));
                 setExams(res.data);

@@ -4,7 +4,7 @@ const SecureStorage = require("secure-web-storage");
 var CryptoJS = require("crypto-js");
 
 module.exports = global.config = {
-    backendURL: "https://hack2021.rohitchaudhari.me/api/api",
+    backendURL: "https://rohitchaudhari.me/api/api",
     secureStorage: new SecureStorage(localStorage, {
         hash: function hash(key) {
             key = CryptoJS.SHA256(key, process.env.REACT_APP_SECRET_KEY);
