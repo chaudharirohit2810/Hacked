@@ -32,7 +32,7 @@ router.route("/submitAnswers").post(async (req, res) => {
             tabSwitched,
             faceWarnings,
         });
-        // console.log(newAnswer);
+
         newAnswer
             .save()
             .then((ans) => res.json(res))
