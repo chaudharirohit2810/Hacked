@@ -7,15 +7,25 @@ export default function QuestionCard({ item, index }) {
             variant="outlined"
             elevation={4}
             title={item.question}
-            style={{ margin: "1rem auto", width: "90%" }}
+            style={{ margin: "1rem auto" }}
         >
             <CardContent>
                 <Typography color="textPrimary" variant="h6" gutterBottom>
                     {`${index}. ${item.question}` || "N/A"}
                 </Typography>
-                {item.options.map((item, index) => (
-                    <Typography variant="body2" color="textPrimary" key={index}>
-                        {index + 1}. {item}
+                {item.options.map((item2, index) => (
+                    <Typography
+                        variant="body2"
+                        color="textPrimary"
+                        key={index}
+                        style={{
+                            fontWeight:
+                                item.options[item.answer] === item2
+                                    ? "bold"
+                                    : "300",
+                        }}
+                    >
+                        {index + 1}. {item2}
                     </Typography>
                 ))}
                 <Typography
@@ -28,14 +38,12 @@ export default function QuestionCard({ item, index }) {
                     {item.correct ? (
                         "Your answer is correct"
                     ) : (
-                        <>
-                            <span>
-                                Your answer is incorrect.
-                                <br />
-                                {` The correct answer is
-                                ${item.options[item.answer]}`}
-                            </span>
-                        </>
+                        <span>
+                            Your answer is incorrect
+                            <br></br>
+                            {` The correct answer is
+                            ${item.options[item.answer]}`}
+                        </span>
                     )}
                 </Typography>
             </CardContent>

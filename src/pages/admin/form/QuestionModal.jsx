@@ -13,7 +13,9 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@material-ui/core";
+import FileBase64 from "react-file-base64";
 
 export default function QuestionModal(props) {
   const theme = useTheme();
@@ -24,6 +26,8 @@ export default function QuestionModal(props) {
     handleModal,
     handleModalSubmit,
     handleChange,
+    handleImages,
+    images,
     marks,
     question,
     option1,
@@ -121,6 +125,24 @@ export default function QuestionModal(props) {
                   value={option4}
                   onChange={handleChange}
                   autoComplete="option4"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  Upload Image
+                </Typography>
+                <FileBase64
+                  multiple={true}
+                  value={images}
+                  onDone={(files) => {
+                    files.forEach((ele) => ele.base64);
+                    handleImages(files);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>

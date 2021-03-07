@@ -34,9 +34,7 @@ const Exam = () => {
 
     const handleVisibility = () => {
         if (document[hidden]) {
-            // alert("Changed Window")
             ++notFocusedCount;
-            // console.log(notFocusedCount);
             setIsFocused("hide");
         } else {
             setIsFocused("show");
@@ -76,6 +74,8 @@ const Exam = () => {
         secureStorage.setItem("notFocusedCount", String(notFocusedCount));
         secureStorage.removeItem("selectedQuiz");
         secureStorage.removeItem("faceWarnings");
+        secureStorage.removeItem("warningCount_answers");
+        secureStorage.removeItem("answers");
         his.replace("/");
     };
 
@@ -90,7 +90,7 @@ const Exam = () => {
 
     return (
         <Paper className={Style.main_container}>
-            <Typography variant="h4">Title of Quiz</Typography>
+            <Typography variant="h4">{exam.title}</Typography>
             <Divider />
             {/* {console.log(isFocused)} */}
             <Paper variant="elevation" className={Style.components_container}>

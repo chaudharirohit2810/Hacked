@@ -3,6 +3,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    Grid,
     makeStyles,
     Snackbar,
     Typography,
@@ -12,12 +13,15 @@ import {
     DoneOutlineOutlined as ExamIcon,
     PublishTwoTone as SubmitIcon,
     RateReview as RateReviewIcon,
+    CloudUpload as UploadIcon,
+    Save as SaveIcon,
 } from "@material-ui/icons";
 import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { backendURL, secureStorage } from "../../../config";
+import crypto from "crypto-js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +65,6 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
         if (!arr) {
             return false;
         }
-        // arr = JSON.parse(arr);
         if (arr.find((it) => it === item._id)) {
             return true;
         }
@@ -156,7 +159,7 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
         const data = {
             examID: item._id,
             collegeID: secureStorage.getItem("collegeID"),
-            answers: savedAnswers,
+            answers: secureStorage.getItem(`${EXAMID}_answer`),
             tabSwitched: secureStorage.getItem("notFocusedCount"),
             faceWarnings: secureStorage.getItem(`${item._id}_faceWarnings`),
         };
@@ -191,6 +194,76 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
     const checkReview = () => {
         secureStorage.setItem("reviewExam", item);
         history.push("/review");
+    };
+
+    const temp = (e) => {
+        console.log(e);
+    };
+
+    const uploadData = (e) => {
+        let file = e.target.files[0];
+        const key = "innerve";
+
+        if (file) {
+            var reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+            reader.onload = function (evt) {
+                try {
+                    const data = evt.target.result;
+                    var decrypted = crypto.AES.decrypt(data, key).toString(
+                        crypto.enc.Utf8
+                    );
+                    var mainData = JSON.parse(decrypted);
+                    if (
+                        mainData["collegeID"] !==
+                        secureStorage.getItem("collegeID")
+                    ) {
+                        throw Error("Invalid answer file");
+                    }
+                    secureStorage.setItem(
+                        `${EXAMID}_answer`,
+                        mainData["savedAnswers"]
+                    );
+                    secureStorage.setItem(
+                        `${item._id}_faceWarnings`,
+                        mainData["faceWarningCount"]
+                    );
+                    secureStorage.setItem(
+                        "notFocusedCount",
+                        mainData["tabWarningCount"]
+                    );
+                    alert(
+                        "Data uploaded successfully! You can submit your answers now"
+                    );
+                    setIsSavedAnswer(true);
+                } catch (err) {
+                    alert("Invalid answer file");
+                }
+            };
+            reader.onerror = function (evt) {
+                console.error("Something went wrong while reading the file");
+            };
+        }
+    };
+
+    const downloadData = () => {
+        var data = {
+            collegeID: secureStorage.getItem("collegeID"),
+            savedAnswers,
+            faceWarningCount: secureStorage.getItem(`${item._id}_faceWarnings`),
+            tabWarningCount: secureStorage.getItem("notFocusedCount"),
+        };
+
+        const fileData = JSON.stringify(data);
+        const key = "innerve";
+        var encrypted = crypto.AES.encrypt(fileData, key).toString();
+
+        const blob = new Blob([encrypted], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = "answers.oec";
+        link.href = url;
+        link.click();
     };
 
     return (
@@ -243,7 +316,6 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
             <div className={classes.root}>
                 <Snackbar
                     open={infoOpen}
-                    //   autoHideDuration={3000}
                     onClose={handleInfoClose}
                     anchorOrigin={{ vertical, horizontal }}
                     key={vertical + horizontal}
@@ -314,12 +386,16 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
                 >
                     {!isadmin && (
                         <>
-                            {!reviewEnabled && (
-                                <>
+                            {!reviewEnabled ? (
+                                <Grid direction="row" wrap>
                                     <Button
                                         color="primary"
                                         variant="contained"
                                         size="small"
+                                        style={{
+                                            marginRight: "0.5rem",
+                                            marginTop: "0.5rem",
+                                        }}
                                         disabled={
                                             downloaded ||
                                             item.endTime < new Date().valueOf()
@@ -333,6 +409,10 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
                                         color="secondary"
                                         variant="contained"
                                         size="small"
+                                        style={{
+                                            marginRight: "0.5rem",
+                                            marginTop: "0.5rem",
+                                        }}
                                         disabled={
                                             !downloaded ||
                                             !(
@@ -356,6 +436,53 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
                                         color="secondary"
                                         variant="contained"
                                         size="small"
+                                        style={{
+                                            marginRight: "0.5rem",
+                                            marginTop: "0.5rem",
+                                        }}
+                                        disabled={isSubmitted || !isSavedAnswer}
+                                        onClick={() => {
+                                            downloadData();
+                                        }}
+                                        startIcon={<SaveIcon />}
+                                    >
+                                        Save Answers
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        component="label"
+                                        color="secondary"
+                                        size="small"
+                                        style={{
+                                            marginRight: "0.5rem",
+                                            marginTop: "0.5rem",
+                                        }}
+                                        // disabled={isSubmitted || !isSavedAnswer}
+                                        disabled={
+                                            !(
+                                                item.startTime <
+                                                    new Date().valueOf() &&
+                                                item.endTime >
+                                                    new Date().valueOf()
+                                            )
+                                        }
+                                        startIcon={<UploadIcon />}
+                                    >
+                                        Upload File
+                                        <input
+                                            type="file"
+                                            hidden
+                                            onChange={uploadData}
+                                        />
+                                    </Button>
+                                    <Button
+                                        color="secondary"
+                                        variant="contained"
+                                        size="small"
+                                        style={{
+                                            marginRight: "0.5rem",
+                                            marginTop: "0.5rem",
+                                        }}
                                         disabled={isSubmitted || !isSavedAnswer}
                                         onClick={() => {
                                             submitAnswers();
@@ -364,20 +491,21 @@ const ExamCard = ({ item, index, isadmin, setPasswordOpen, setExamid }) => {
                                     >
                                         Submit Answers
                                     </Button>
-                                </>
+                                </Grid>
+                            ) : (
+                                <Button
+                                    color="secondary"
+                                    variant="contained"
+                                    size="small"
+                                    disabled={!reviewEnabled}
+                                    onClick={() => {
+                                        history.push(`/userReview/${item._id}`);
+                                    }}
+                                    startIcon={<SubmitIcon />}
+                                >
+                                    Check Review
+                                </Button>
                             )}
-                            <Button
-                                color="secondary"
-                                variant="contained"
-                                size="small"
-                                disabled={!reviewEnabled}
-                                onClick={() => {
-                                    history.push(`/userReview/${item._id}`);
-                                }}
-                                startIcon={<SubmitIcon />}
-                            >
-                                Check Review
-                            </Button>
                         </>
                     )}
                     {isadmin && (

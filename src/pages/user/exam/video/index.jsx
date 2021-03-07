@@ -83,13 +83,13 @@ const VideoComponent = ({ warnings, setWarnings }) => {
                 });
                 // console.log(results);
                 if (results.length !== 1) {
-                    ++warningCount;
+                    warningCount += 1;
                     secureStorage.setItem("faceWarnings", warningCount);
                     setError(`Your face is not getting detected.`);
                     return;
                 }
                 if (results[0]._label !== "Student") {
-                    ++warningCount;
+                    warningCount += 1;
                     secureStorage.setItem("faceWarnings", warningCount);
                     setError(`Your face is not getting detected.`);
                     return;
